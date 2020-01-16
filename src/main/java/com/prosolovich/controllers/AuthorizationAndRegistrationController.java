@@ -21,7 +21,8 @@ public class AuthorizationAndRegistrationController {
 
 
     @GetMapping("/")
-    public String getAuthorizationPage(Model model, HttpSession httpSession) {
+    public String getAuthorizationPage(Model model,
+                                       HttpSession httpSession) {
         if (httpSession.getAttribute("userLogin") != null &&
                 httpSession.getAttribute("userPassword") != null &&
                 httpSession.getAttribute("userRole") != null) {
@@ -34,7 +35,9 @@ public class AuthorizationAndRegistrationController {
 
 
     @PostMapping("/authorize")
-    public String authorizationClicked(@ModelAttribute("user") User user, Model model, HttpSession httpSession) throws SQLException, InvalidKeySpecException, NoSuchAlgorithmException {
+    public String authorizationClicked(@ModelAttribute("user") User user,
+                                       Model model,
+                                       HttpSession httpSession) throws SQLException, InvalidKeySpecException, NoSuchAlgorithmException {
         PreparedStatement preparedStatement = connectionSource
                 .createConnection()
                 .prepareStatement("select * from main.users where login=?");
@@ -61,7 +64,8 @@ public class AuthorizationAndRegistrationController {
     }
 
     @PostMapping("/registerNewUser")
-    public String registrationOfNewUser(@ModelAttribute("user") User user, Model model) throws SQLException, InvalidKeySpecException, NoSuchAlgorithmException {
+    public String registrationOfNewUser(@ModelAttribute("user") User user,
+                                        Model model) throws SQLException, InvalidKeySpecException, NoSuchAlgorithmException {
         PreparedStatement userByLogin = getPreparedStatement("select * from main.users where login=?");
         userByLogin.setString(1, user.getLogin());
         ResultSet resultSet = userByLogin.executeQuery();

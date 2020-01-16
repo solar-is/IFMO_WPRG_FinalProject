@@ -26,7 +26,9 @@ public class MainPageController {
 
 
     @RequestMapping("/mainPage")
-    public String mainPage(@ModelAttribute("user") User user, Model model, HttpSession httpSession) throws SQLException {
+    public String mainPage(@ModelAttribute("user") User user,
+                           Model model,
+                           HttpSession httpSession) throws SQLException {
         User cur = new User();
         if (httpSession.getAttribute("userLogin") != null &&
                 httpSession.getAttribute("userPassword") != null) {
@@ -121,7 +123,8 @@ public class MainPageController {
 
 
     @PostMapping("/getRecommendation")
-    public String getRecommendation(HttpSession httpSession, Model model) throws SQLException, IOException {
+    public String getRecommendation(HttpSession httpSession,
+                                    Model model) throws SQLException, IOException {
         String login = (String) httpSession.getAttribute("userLogin");
         String password = (String) httpSession.getAttribute("userPassword");
         Set<Integer> prevRecs = (HashSet<Integer>) httpSession.getAttribute("prevRecs");

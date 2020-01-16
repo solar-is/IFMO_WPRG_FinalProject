@@ -17,7 +17,9 @@ public class FilmPageController {
 
 
     @PostMapping("/sendRequest/{title}")
-    public String sendRequest(HttpSession httpSession, Model model, @PathVariable("title") String title) {
+    public String sendRequest(HttpSession httpSession,
+                              Model model,
+                              @PathVariable("title") String title) {
         Request request = new Request();
         request.setUserLogin((String) httpSession.getAttribute("userLogin"));
         request.setMovieTitle(title);
@@ -28,7 +30,8 @@ public class FilmPageController {
     }
 
     @PostMapping("/postRequest")
-    public String postRequest(@ModelAttribute("request") Request request, HttpSession httpSession) throws SQLException {
+    public String postRequest(@ModelAttribute("request") Request request,
+                              HttpSession httpSession) throws SQLException {
         PreparedStatement insertGenre = getPreparedStatement(
                 "insert into main.genre values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
         int genreIdx = getGoodIdForGenreTable();
