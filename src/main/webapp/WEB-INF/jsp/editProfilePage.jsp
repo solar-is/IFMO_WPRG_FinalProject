@@ -33,7 +33,7 @@
     </style>
 </head>
 <body>
-<h2>Registration</h2>
+<h2>Edit profile</h2>
 <%--@elvariable id="user" type="java"--%>
 <form:form action="/editUserProfile" modelAttribute="user" method="post">
     <input required="true" type="password" name="oldPassword" placeholder="Old password"/>
