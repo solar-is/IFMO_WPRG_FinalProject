@@ -42,8 +42,21 @@ public class MainPageController {
 
 
     @PostMapping("/editProfile")
-    public String editProfile(Model model) {
-        model.addAttribute("user", new User());
+    public String editProfile(Model model, HttpSession httpSession) throws SQLException {
+        User user = new User();
+        String login = (String) httpSession.getAttribute("userLogin");
+        PreparedStatement preparedStatement = connectionSource.createConnection()
+                .prepareStatement("select * from main.users inner join main.genre on users.genrepref=genre.id where login=?");
+        preparedStatement.setString(1, login);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+        int[] prefs = new int[28];
+        for (int i = 0; i<28; ++i){
+            prefs[i] = resultSet.getInt(i+7);
+        }
+        user.setGenrePrefs(prefs);
+        user.setLogin(login);
+        model.addAttribute("user", user);
         return "editProfilePage";
     }
 

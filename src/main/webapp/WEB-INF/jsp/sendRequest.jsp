@@ -1,3 +1,7 @@
+<%@ page import="com.prosolovich.ConnectionSource" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -24,7 +28,9 @@
 
         .item {
             padding: 5px;
+            width:80px;
         }
+
 
         .mybutton {
             width: 130px;
@@ -43,67 +49,112 @@
     <p> User Login: <form:label path="userLogin"> ${request.userLogin} </form:label></p>
     <p> Movie Title: <form:label path="movieTitle"> ${request.movieTitle} </form:label></p>
     <br>
+    <%
+        String title = (String) session.getAttribute("movieTitle");
+        ConnectionSource connectionSource = ConnectionSource.instance();
+        int[] genrePrefs = new int[28];
+        try {
+            PreparedStatement preparedStatement = connectionSource.createConnection().prepareStatement("select * from main.movie inner join main.genre on " +
+                    "movie.genresmapping=genre.id where title=?");
+            preparedStatement.setString(1, title);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            for (int i = 0;i<28; ++i){
+                genrePrefs[i] = resultSet.getInt(7 + i);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    %>
     <div class="block">
-        <div class="item"><form:input path="genrePrefs" placeholder="Action" required="true"/></div>
+        <label class="item">Action:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[0] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Adult" required="true"/></div>
+        <label class="item">Adult:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[1] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Adventure" required="true"/></div>
+        <label class="item">Adventure:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[2] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Animation" required="true"/></div>
+        <label class="item">Animation:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[3] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Biography" required="true"/></div>
+        <label class="item">Biography:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[4] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Comedy" required="true"/></div>
+        <label class="item">Comedy:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[5] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Crime" required="true"/></div>
+        <label class="item">Crime:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[6] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Documentary" required="true"/></div>
+        <label class="item">Documentary:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[7] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Drama" required="true"/></div>
+        <label class="item">Drama:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[8] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Family" required="true"/></div>
+        <label class="item">Family:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[9] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Fantasy" required="true"/></div>
+        <label class="item">Fantasy:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[10] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Noir" required="true"/></div>
+        <label class="item">Noir:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[11] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Game-Show" required="true"/></div>
+        <label class="item">Game-Show:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[12] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="History" required="true"/></div>
+        <label class="item">History:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[13] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Horror" required="true"/></div>
+        <label class="item">Horror:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[14] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Musical" required="true"/></div>
+        <label class="item">Musical:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[15] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Music" required="true"/></div>
+        <label class="item">Music:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[16] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Mystery" required="true"/></div>
+        <label class="item">Mystery:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[17] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="News" required="true"/></div>
+        <label class="item">News:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[18] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Reality" required="true"/></div>
+        <label class="item">Reality:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[19] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Romance" required="true"/></div>
+        <label class="item">Romance:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[20] %>" path="genrePrefs"  required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Sci-Fi" required="true"/></div>
+        <label class="item">Sci-Fi:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[21] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Short" required="true"/></div>
+        <label class="item">Short:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[22] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Sport" required="true"/></div>
+        <label class="item">Sport:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[23] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Talk-Show" required="true"/></div>
+        <label class="item">Talk-Show:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[24] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Thriller" required="true"/></div>
+        <label class="item">Thriller:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[25] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="War" required="true"/></div>
+        <label class="item">War:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[26] %>"  path="genrePrefs" required="true"/></div>
         <br><br>
-        <div class="item"><form:input path="genrePrefs" placeholder="Western" required="true"/></div>
+        <label class="item">Western:</label>
+        <div class="item"><form:input type="number" min="1" max="10" placeholder="<%= genrePrefs[27] %>" path="genrePrefs" required="true"/></div>
         <br><br>
-    </div>
-    <br>
+    </div>    <br>
     <input class="mybutton" type="submit" value="Submit"/>
 </form:form>
+
 
 
 </body>
